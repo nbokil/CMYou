@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @organization.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @organization.description %>
+</p>
+
+<p>
+  <strong>Hour commitment:</strong>
+  <%= @organization.hour_commitment %>
+</p>
+
+<p>
+  <strong>Video:</strong>
+  <%= @organization.video %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @organization.active %>
+</p>
+
+<%= link_to 'Edit', edit_organization_path(@organization) %> |
+<%= link_to 'Back', organizations_path %>

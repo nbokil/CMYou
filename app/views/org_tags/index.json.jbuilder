@@ -1,0 +1,1 @@
+json.array! @org_tags, partial: 'org_tags/org_tag', as: :org_tag

@@ -1,0 +1,1 @@
+json.partial! "org_tags/org_tag", org_tag: @org_tag

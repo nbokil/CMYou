@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @org_tag.organization_id %>
+</p>
+
+<p>
+  <strong>Tag:</strong>
+  <%= @org_tag.tag_id %>
+</p>
+
+<%= link_to 'Edit', edit_org_tag_path(@org_tag) %> |
+<%= link_to 'Back', org_tags_path %>
