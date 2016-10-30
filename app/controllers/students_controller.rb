@@ -1,44 +1,36 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: [:show, :edit, :update, :destroy]
 
-  # GET /students
-  # GET /students.json
   def index
     @students = Student.all
   end
 
-  # GET /students/1
-  # GET /students/1.json
   def show
   end
 
-  # GET /students/new
   def new
     @student = Student.new
+    user = @student.build_user
   end
 
-  # GET /students/1/edit
   def edit
+    # should have a user associated with student, but just in case...
+    user = @student.build_user
   end
 
-  # POST /students
-  # POST /students.json
   def create
     @student = Student.new(student_params)
 
-    respond_to do |format|
-      if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-        format.json { render :show, status: :created, location: @student }
-      else
-        format.html { render :new }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
+    if @student.save
+      if !current_user
+        session[:user_id] = @student.user.id
       end
+      redirect_to @student, notice: "#{@student.proper_name} was added to the system."
+    else
+      render action: 'new'
     end
   end
 
-  # PATCH/PUT /students/1
-  # PATCH/PUT /students/1.json
   def update
     respond_to do |format|
       if @student.update(student_params)
@@ -69,6 +61,11 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:first_name, :last_name, :gender, :dorm, :class_year, :user_id, :active)
+      reset_role_param
+      params.require(:student).permit(:first_name, :last_name, :gender, :dorm, :class_year, :user_id, :active, user_attributes: [:id, :username, :password, :password_confirmation, :role, :active])
+    end
+
+    def reset_role_param
+      params[:student][:user_attributes][:role] = "student"
     end
 end

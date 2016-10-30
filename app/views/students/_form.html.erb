@@ -1,4 +1,6 @@
-<%= form_for(@student) do |f| %>
+<%= simple_nested_form_for @student, html: { class: 'form-horizontal' } do |f| %>
+
+
   <% if @student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
@@ -31,14 +33,40 @@
     <%= f.label :class_year %><br>
     <%= f.number_field :class_year %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :active %><br>
-    <%= f.check_box :active %>
-  </div>
+  
+  <% if current_user && current_user.role?(:admin) %>
+    <div class="field">
+      <%= f.label :active %><br>
+      <%= f.check_box :active %>
+    </div>
+  <% else %>
+    <%= f.input :active, as: :hidden, input_html: {value: true } %>
+  <% end %>
+  
+  <%= f.simple_fields_for :user do |user_form| %>
+    <% if controller.action_name == 'new' || controller.action_name == 'create' %>
+      <div class="row">
+        <div class="input-field col s12">
+          <%= user_form.label :username %>
+          <%= user_form.text_field :username %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <%= user_form.label :password %>
+          <%= user_form.password_field :password %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <%= user_form.label :password_confirmation %>
+          <%= user_form.password_field :password_confirmation %>
+        </div>
+      </div>
+    <% end %>
+    <%= user_form.input :active, as: :hidden, input_html: {value: true } %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

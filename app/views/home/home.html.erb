@@ -1,0 +1,27 @@
+<!-- home page for users that are logged in -->
+<%= current_user.username %>
+
+<% if current_user.role?(:student) %>
+  <div id="main-container" class="container-fluid">
+    <div id="main content" class="col-xs-12">
+      <%= render 'student_recommendations' %>
+    </div>
+  </div>
+
+<% elsif current_user.role?(:ra) %>
+  <div id="main-container" class="container-fluid">
+    <div id="main content" class="col-xs-12">
+      <%= render 'ra_dashboard' %>
+    </div>
+  </div>
+
+<% elsif current_user.role?(:admin) %>
+  <div id="main-container" class="container-fluid">
+    <div id="main content" class="col-xs-12">
+      <%= render 'admin_dashboard' %>
+    </div>
+  </div>
+
+<% end %>
+
+<%= link_to 'Logout', logout_path %>

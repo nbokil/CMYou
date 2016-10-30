@@ -24,7 +24,19 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+
+# Other gems used by the project
+gem 'will_paginate', '3.0.7'
+gem 'chronic', '0.10.2'
+gem 'simple_form', '3.1.0'
+gem 'nested_form', '0.3.2'
+gem 'font-awesome-sass-rails', '3.0.2.2'
+gem 'jquery-ui-rails', '5.0.3'
+gem 'cancancan', '1.9.2'
+gem 'validates_timeliness', '3.0.14'
+gem 'carrierwave', '0.10.0'
+gem 'time_date_helpers', '0.0.2'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
