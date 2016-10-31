@@ -29,14 +29,16 @@
 	  </nav>
 	<% end %>
 
-	<main>
+	<% if logged_in? %>
+		<main style="padding-left:320px">
+	<% else %>
+		<main>
+	<% end %>
 		<%= yield %>
 	</main>
 
-	<footer class="page-footer" style="background:rgb(153,0,0);margin-left:140px;">
+	<footer class="page-footer" style="background:rgb(153,0,0);">
 	  <div class="footer-copyright" style="background:rgb(153,0,0);">
-	    Powered by best IS team.Ever. © Copyright 2016
-	    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
 	  </div>
 	</footer>
 </body>
