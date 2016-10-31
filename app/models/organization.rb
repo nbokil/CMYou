@@ -7,10 +7,11 @@ class Organization < ActiveRecord::Base
 
   # Scopes
   scope :alphabetical,  -> { order(:name) }
+  scope :for_org, ->(org) { where(id: org) }
 
   #Validations
   validates_presence_of :name
 
   #need to figure out how to handle Youtube video display
-  
+
 end

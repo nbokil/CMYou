@@ -1,23 +1,38 @@
 <!-- code for student recommendations goes here -->
 <p>student recommendations</p>
 
+
+
 <div class ="row">
 	<div class="col s6">
 	  <div class="row">
-	    <div class="col s12 m7" style="">
-	      <div class="card">
-	        <div class="card-image">
-	          <img src="./capture1.png">
-	          <span class="card-title"></span>
-	        </div>
-	        <div class="card-content">
-	          <p align="justify">CMU Bhangra is a dance team that performs the Indian folk dance, Bhangra, at various competitions and events throughout North America.</p>
-	        </div>
-	        <div class="card-action">
-	          <a href="#">View Organization</a>
-	        </div>
-	      </div>
-	    </div>
+		<div class="col s12 m7" style="">
+		  <div class="card">
+			<div class="card-image">
+			  <img src="./capture1.png">
+			  <span class="card-title"></span>
+			</div>
+			<div class="card-content">
+			  <p align="justify">CMU Bhangra is a dance team that performs the Indian folk dance, Bhangra, at various competitions and events throughout North America.</p>
+			</div>
+			<div class="card-action">
+			  <a href="#">View Organization</a>
+			</div>
+		  </div>
+		</div>
 	  </div>
 	</div>
 </div>
+
+<!-- code for house recommendations goes here -->
+
+<% if @recommended_orgs.empty? %>
+  <h5><center><i>There are currently no recommended organizations</i></center></h5>
+<% else %>
+	<% @recommended_orgs.each do |org| %>
+    <tr>
+      <td><%= link_to org.name, organization_path(org) %></td>
+    </tr>
+  <% end %>
+	<%= @recommended_orgs %>
+<% end %>

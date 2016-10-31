@@ -21,30 +21,46 @@ class HomeController < ApplicationController
   end
 
   private
+
   def find_organization_recommendations
+    tag_ids = match_interests_to_tags
+    org_ids = match_tags_to_orgs(tag_ids)
+    matching_orgs = find_org_names(org_ids)
+
+    return matching_orgs
+  end
+
+  def match_interests_to_tags
     interests = current_user.student.interests
-    tags = Tag.all
     matching_tags = Array.new
-    rec_orgs = Array.new
 
     interests.each do |i|
-      tag.each do |t|
-        if i.name == t.name
-          matching_tags << t.id
-        end
-      end
+      matching_tags << Tag.for_interest(i.name).map(&:id)  
     end
 
-    rec_orgs = find_matching_orgtags(matching_tags)
+    return matching_tags
 
   end
 
-  def find_matching_orgtags(tags)
-    tags.each do |t|
-      curr_ot = OrgTag[t]
-      curr_org = 'hello'
+  def match_tags_to_orgs(tag_ids)
+    matching_orgs = Array.new
 
+    tag_ids.each do |t|
+      matching_orgs << OrgTag.for_org(t).map(&:organization_id)
+    end
+
+    return matching_orgs
   end
-end
+
+  def find_org_names(org_ids)
+    matching_orgs = Array.new
+
+    org_ids.each do |oi|
+      matching_orgs << Organization.for_org(oi)
+    end
+
+    return matching_orgs
+  end
+
 
 end

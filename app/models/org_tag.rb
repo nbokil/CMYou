@@ -4,6 +4,5 @@ class OrgTag < ActiveRecord::Base
   belongs_to :tag
   belongs_to :organization
 
-  scope :for_tag, ->(category) { where(category: category) }
-
+  scope :for_org, ->(tag) { where(tag_id: tag) }
 end

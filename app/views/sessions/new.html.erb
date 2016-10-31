@@ -1,25 +1,57 @@
-<h3>Log In</h3>
-<div class="row">
-  <div class="small-7 columns">
-    <%= form_tag sessions_path do %>
-      <div class="control-group">
-        <%= label_tag :username %>
-        <div class="controls">
-          <%= text_field_tag :username, params[:username] %>
-        </div>
-      </div>
+<div class="content" style="margin-top:2%;">
+  <h2 id="hometitle"> Your home, away from home </h2>
 
-      <div class="control-group">
-        <%= label_tag :password %>
-        <div class="controls">
-          <%= password_field_tag :password %>
-        </div>
+
+<div class="loginform">
+  <%= form_tag sessions_path do %>
+    <div class="row">
+      <div class="input-field col s12">      
+        <i class="material-icons prefix" style="color:rgb(153,0,0);">account_circle</i>
+        <%= label_tag :username, nil, class:'login_label' %>
+        <%= text_field_tag :username, params[:username] %>
       </div>
-      
-      <div class="actions"><%= submit_tag "Log In" %></div>
-    <% end %>
-  </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">   
+        <i class="material-icons prefix" style="color:rgb(153,0,0);">lock</i>
+        <%= label_tag :password, nil, class:'login_label' %>
+        <%= password_field_tag :password %>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col s12">   
+        <button class="btn waves-effect waves-light" style="width:inherit;background-color:rgb(153,0,0);" type="submit" name="action"><%= submit_tag "Log In" %><i class="material-icons right">send</i></button>
+
+        <br><br><center><h5 id="signup"><%= link_to 'Sign Up', signup_path, style:'color:white;' %></h5></center>
+      </div>
+    </div>
+
+  <% end %>
 </div>
 
-<h3>Sign Up</h3>
-<%= link_to 'Signup', signup_path %>
+
+
+<div class="container">
+  <div class="row" align="center">
+    <div class="input-field col s4">
+      <figure>
+        <i class="large material-icons" style="color:rgb(153,0,0);">supervisor_account</i>
+        <figcaption style="color:white;">Find an organization based on your interests</figcaption>
+      </figure>
+    </div>
+    <div class="input-field col s4">
+      <figure>
+        <i class="large material-icons" style="color:rgb(153,0,0);">star</i>
+        <figcaption style="color:white;">Keep track of your involvment in organizations</figcaption>
+      </figure>
+    </div>
+    <div class="input-field col s4">
+      <figure>
+        <i class="large material-icons" style="color:rgb(153,0,0);">thumb_up</i>
+        <figcaption style="color:white;">Find out what positions are right for you</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>

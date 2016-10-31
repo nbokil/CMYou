@@ -13,3 +13,48 @@
  *= require_tree .
  *= require_self
  */
+
+
+#signuppage {
+  background: #222222 url(../assets/landing_bg.jpg) no-repeat center center; 
+  background-position:top left;
+  background-repeat:no-repeat;
+  background-size: 100%;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+#hometitle {
+  color: white;
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 14px black;
+  text-align: center;
+  font-size:37px;
+  letter-spacing: normal;
+}
+
+#signup {
+	color: white !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 14px black;
+  letter-spacing: normal;
+}
+
+.loginform {
+  margin: 0 auto;
+  width: 400px;
+}
+
+.login_label {
+	color:white !important;
+}
