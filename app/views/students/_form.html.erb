@@ -1,6 +1,6 @@
 <%= simple_nested_form_for @student, html: { class: 'form-horizontal' } do |f| %>
 
-
+<div class="container" style="background-color:white;padding:20px">
   <% if @student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
@@ -63,11 +63,14 @@
           <%= user_form.password_field :password_confirmation %>
         </div>
       </div>
+
     <% end %>
     <%= user_form.input :active, as: :hidden, input_html: {value: true } %>
   <% end %>
 
-  <div class="actions">
+  <div class="actions btn waves-effect waves-light" style="background-color:rgb(153,0,0);">
     <%= f.submit %>
   </div>
+
+</div>
 <% end %>
