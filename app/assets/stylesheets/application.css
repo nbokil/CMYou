@@ -22,6 +22,17 @@
   background-size: 100%;
 }
 
+#nointerests {
+  background: #222222 url(../assets/cmu_bg.jpg) no-repeat center center; 
+  background-position:top left;
+  background-repeat:no-repeat;
+  background-size: cover;
+}
+
+.interestwrapper {
+  text-align: center;
+}
+
 body {
   display: flex;
   min-height: 100vh;

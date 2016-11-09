@@ -1,10 +1,13 @@
 <!-- home page for users that are logged in -->
-<%= current_user.username %>
 
 <% if current_user.role?(:student) %>
   <div id="main-container" class="container-fluid">
     <div id="main content" class="col-xs-12">
-      <%= render 'student_recommendations' %>
+      <% if current_user.student.interests.empty? %>
+        <%= render 'student_interest_form' %>
+      <% else %>
+        <%= render 'student_recommendations' %>
+      <% end %>
     </div>
   </div>
 

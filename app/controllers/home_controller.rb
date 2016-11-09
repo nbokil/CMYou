@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   def home
     if (current_user && current_user.role?(:student))
       @recommended_orgs = find_organization_recommendations
+      @student = current_user.student.id
 
     elsif (current_user)
     #  @recommended_houses = find_house_recommendations
