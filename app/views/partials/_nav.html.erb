@@ -1,7 +1,7 @@
 <!-- code for nav bar goes here -->
 	<nav style="padding-left:340px;background-color:rgb(153,0,0);">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo"><i class="material-icons">cloud</i>CMYou</a>
+        <%= link_to 'CMYou', home_path, { :class=> "brand-logo" } %>
         <ul class="right hide-on-med-and-down">
         	<%= link_to 'Logout', logout_path%>
         </ul>
