@@ -21,6 +21,9 @@ class HomeController < ApplicationController
   def contact
   end
 
+  def student_dashboard
+  end
+
   private
 
   def find_organization_recommendations
