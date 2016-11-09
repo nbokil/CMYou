@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>CMYou</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <%= stylesheet_link_tag    "materialize" %>
     <%= stylesheet_link_tag    "application" %>
 
@@ -24,13 +25,11 @@
 	<body>
 <% end %>
 	<% if logged_in? %>
-		<nav class="red lighten-1">
 	    <%= render 'partials/nav' %>
-	  </nav>
 	<% end %>
 
 	<% if logged_in? %>
-		<main style="padding-left:320px">
+		<main style="padding-left:300px">
 	<% else %>
 		<main>
 	<% end %>

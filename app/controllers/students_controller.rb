@@ -11,11 +11,13 @@ class StudentsController < ApplicationController
   def new
     @student = Student.new
     user = @student.build_user
+    @student.interests.build
   end
 
   def edit
     # should have a user associated with student, but just in case...
     user = @student.build_user
+    @student.interests.build
   end
 
   def create
@@ -62,7 +64,7 @@ class StudentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
       reset_role_param
-      params.require(:student).permit(:first_name, :last_name, :gender, :dorm, :class_year, :user_id, :active, user_attributes: [:id, :username, :password, :password_confirmation, :role, :active])
+      params.require(:student).permit(:first_name, :last_name, :gender, :dorm, :class_year, :user_id, :active, user_attributes: [:id, :username, :password, :password_confirmation, :role, :active], interests_attributes: [:id, :name, :_destroy])
     end
 
     def reset_role_param

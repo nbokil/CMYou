@@ -1,6 +1,12 @@
 <%= simple_nested_form_for @student, html: { class: 'form-horizontal' } do |f| %>
 
-<div class="container" style="background-color:white;padding:20px">
+  <% if controller.action_name == 'new' || controller.action_name == 'create' %>
+    <div class="container" style="background-color:white;padding:20px">
+  <% end %>
+
+  <div class="row">
+    <i class="small material-icons left">account_circle</i><h5> Profile & Interests</h5>
+  </div>
   <% if @student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
@@ -23,15 +29,15 @@
   </div>
   <div class="field">
     <%= f.label :gender %><br>
-    <%= f.text_field :gender %>
+    <%= f.select(:gender, Student::GENDER_LIST, prompt: "Select...") %>
   </div>
   <div class="field">
     <%= f.label :dorm %><br>
-    <%= f.text_field :dorm %>
+    <%= f.select(:dorm, Student::DORM_LIST, prompt: "Select...") %>
   </div>
   <div class="field">
     <%= f.label :class_year %><br>
-    <%= f.number_field :class_year %>
+    <%= f.select(:class_year, Student::CLASS_LIST, prompt: "Select...") %>
   </div>
   
   <% if current_user && current_user.role?(:admin) %>
@@ -63,14 +69,31 @@
           <%= user_form.password_field :password_confirmation %>
         </div>
       </div>
-
     <% end %>
+
     <%= user_form.input :active, as: :hidden, input_html: {value: true } %>
   <% end %>
+
+  <%= f.simple_fields_for :interests do |interest_form| %>
+    <div class="row">
+      <div class="input-field col s12">
+        <%= interest_form.label :name %>
+        <%= interest_form.text_field :name %>
+      </div>
+    </div>
+  <% end %>
+
+  <p>
+    <br /><%= f.link_to_add("Add Interest", :interests, :class => 'button tiny') %>
+  </p>
+
+  
 
   <div class="actions btn waves-effect waves-light" style="background-color:rgb(153,0,0);">
     <%= f.submit %>
   </div>
+  <% if controller.action_name == 'new' || controller.action_name == 'create' %>
+    </div>
+  <% end %>
 
-</div>
 <% end %>

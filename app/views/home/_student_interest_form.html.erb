@@ -1,7 +1,7 @@
 <!-- page to display for first time user with no interests -->
-
-<div id="nointerests">
+<div id='interest_background'>
+<%= image_tag 'cmu_bg.jpg', class: "interest_image" %>
 	<div class="interestwrapper">
-		<button class="btn waves-effect waves-light" style="background-color:rgb(153,0,0);border-radius:40px;margin-top:60%;"><%= link_to "Fill Out Your Interests", edit_student_path(@student) %></button>
+		<button class="btn waves-effect waves-light" style="background-color:rgb(153,0,0);border-radius:40px;"><%= link_to "Fill Out Your Interests", edit_student_path(@student) %></button>
 	</div>
 </div>
