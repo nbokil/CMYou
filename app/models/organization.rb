@@ -4,6 +4,7 @@ class Organization < ActiveRecord::Base
   has_many :commitments
   has_many :positions
   has_many :org_tags
+  has_many :tags, through: :org_tags
 
   # Scopes
   scope :alphabetical,  -> { order(:name) }

@@ -60,7 +60,7 @@ class HomeController < ApplicationController
     matching_orgs = Array.new
 
     org_ids.each do |oi|
-      matching_orgs << Organization.for_org(oi)
+      matching_orgs << Organization.for_org(oi).map {|o| [o.id, o.name, o.description]}
     end
 
     return matching_orgs

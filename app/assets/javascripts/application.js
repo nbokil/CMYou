@@ -15,8 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-$(".button-collapse").sideNav();
-
 $(function(){
     $(function(){
       $('.dropdown-button').dropdown({
