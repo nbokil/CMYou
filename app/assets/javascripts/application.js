@@ -15,6 +15,9 @@
 //= require turbolinks
 //= require_tree .
 
+$(document).ready(ready)
+$(document).on('page:load', ready)
+
 $(function(){
     $(function(){
       $('.dropdown-button').dropdown({
@@ -26,6 +29,9 @@ $(function(){
       belowOrigin: true // Displays dropdown below the button
     }
   );
-      $('select').material_select();
     });
   });
+
+$(document).ready(function() {
+        $('select').material_select();
+      });
