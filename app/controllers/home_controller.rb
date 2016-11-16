@@ -22,6 +22,7 @@ class HomeController < ApplicationController
   end
 
   def student_dashboard
+    @commitments = find_commitments
   end
 
   private
@@ -30,6 +31,17 @@ class HomeController < ApplicationController
     tag_ids = match_interests_to_tags
     org_ids = match_tags_to_orgs(tag_ids)
     matching_orgs = find_org_names(org_ids)
+
+    return matching_orgs
+  end
+
+  def find_commitments
+    commitments = current_user.student.commitments
+    matching_orgs = Array.new
+
+    commitments.each do |c|
+      matching_orgs << Organization.for_org(c.organization_id).map{|o| [o.id, o.name, o.description]}
+    end
 
     return matching_orgs
   end
