@@ -74,19 +74,19 @@
     <%= user_form.input :active, as: :hidden, input_html: {value: true } %>
   <% end %>
 
+  <h4>Interests</h4>
   <%= f.simple_fields_for :interests do |interest_form| %>
     <div class="row">
       <div class="input-field col s12">
         <%= interest_form.label :name %>
         <%= interest_form.text_field :name %>
       </div>
+      <%= interest_form.link_to_remove "Remove this interest" %>
     </div>
   <% end %>
 
-  <p>
-    <br /><%= f.link_to_add("Add Interest", :interests, :class => 'button tiny') %>
-  </p>
-
+  <%= f.link_to_add("Add Interest", :interests) %>
+  <br><br>
   
 
   <div class="actions btn waves-effect waves-light" style="background-color:rgb(153,0,0);">
