@@ -12,13 +12,10 @@ class HomeController < ApplicationController
     end
   end
 
-  def about
-  end
-
-  def privacy
-  end
-
-  def contact
+  def dorm
+    @dorm = params[:name]
+    @students_= Student.for_dorm(params[:name]).count
+    @student_interests = student_interests
   end
 
   def student_dashboard
@@ -27,6 +24,22 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def student_interests
+    students_ids = Student.for_dorm(params[:name]).map(&:id)
+    student_interests = Hash.new
+    students_ids.each do |sid|
+      interest = Interest.get_interests(sid)
+      interest.each do |i|
+        if student_interests.has_key?(i.name) 
+          student_interests[i.name] += 1
+        else
+          student_interests[i.name] = 1
+        end
+      end
+    end
+    return student_interests
+  end
 
   def find_organization_recommendations
     tag_ids = match_interests_to_tags
