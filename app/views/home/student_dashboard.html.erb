@@ -1,8 +1,15 @@
 <!-- code for student recommendations goes here -->
 <h4>Student Dashboard</h4>
 
+<div class ="row">
+	<!-- The statistical graph should go in here-->
+</div>
 
 <div class ="row">
+
+	<% @positions.each do |position| %>
+		<%= position %>
+	<% end %>
 
 	
 	<% @commitments.each do |org| %>

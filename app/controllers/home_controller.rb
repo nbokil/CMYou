@@ -22,10 +22,22 @@ class HomeController < ApplicationController
   end
 
   def student_dashboard
+    @positions = get_positions
     @commitments = find_commitments
   end
 
   private
+
+  def get_positions
+    commitments = current_user.student.commitments
+    positions = Array.new
+
+    commitments.each do |c|
+      positions << Position.get_position_from_org_id(c.organization_id).map{|p| [p.name, p.hour_commitment, p.description]}
+    end
+
+    return positions
+  end
 
   def find_organization_recommendations
     tag_ids = match_interests_to_tags
