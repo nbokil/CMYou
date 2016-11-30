@@ -22,8 +22,7 @@ class HomeController < ApplicationController
   end
 
   def student_dashboard
-    @positions = get_positions
-    @commitments = find_commitments
+    @commitments = current_user.favorite_organizations
   end
 
   private

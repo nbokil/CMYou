@@ -1,4 +1,52 @@
-<p id="notice"><%= notice %></p>
+
+<div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-image">
+			<%= image_tag 'bhangra_org.png', size: "250x250" %>
+        </div>
+      </div>
+         <hr>
+    </div>
+ 
+</div>
+
+<center><iframe width="100%" height="355" src="https://www.youtube.com/embed/IfdiFUj7_QQ" frameborder="0" allowfullscreen></iframe></center>
+
+<div class="boxed" style="border:2px solid black">
+  <p><%= @organization.description %></p>
+</div>
+
+<div class="row">
+	<div class="col s12 m6">
+	  <div class="card blue-grey darken-1">
+	    <div class="card-content white-text">
+	      <span class="card-title">Competitive Dancer</span>
+	      <p>You will join the competitve team and get the chance to compete against other teams around the nation</p>
+	    </div>
+	    <div class="card-action">
+	      <a href="#">Time Commitment: 100hrs / week </a>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="col s12 m6">
+	  <div class="card blue-grey darken-1">
+	    <div class="card-content white-text">
+	      <span class="card-title">Campus Dancer</span>
+	      <p>You will learn the basics of bhangra and campus will train you to join the competitive dancers in the future</p>
+	    </div>
+	    <div class="card-action">
+	      <a href="#">Time Commitment: 50hrs / week </a>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+
+
+
+<!--
 
 <p>
   <strong>Name:</strong>
@@ -22,3 +70,5 @@
 
 <%= link_to 'Edit', edit_organization_path(@organization) %> |
 <%= link_to 'Back', organizations_path %>
+
+-->

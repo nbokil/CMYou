@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :students
   resources :users
   resources :sessions
+  resources :favorite_organizations, only: [:create, :destroy]
 
   # Set the root url
   root :to => 'home#home'
