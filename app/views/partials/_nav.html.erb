@@ -3,6 +3,9 @@
       <div class="nav-wrapper">
         <%= link_to 'CMYou', home_path, { :class=> "brand-logo" } %>
         <ul class="right hide-on-med-and-down">
+        <% if current_user.role?(:student) %>
+          <li><%= link_to 'Profile', edit_student_path(current_user.student)%></li>
+        <%end%>
         	<li><%= link_to 'Logout', logout_path%></li>
         </ul>
       </div>
@@ -18,7 +21,9 @@
           <div class="col s6">
             <div class="row">
               <span class="white-text name">
+              <% if current_user.role?(:student) %>
               	<%= current_user.student.proper_name %>
+              <%end%>
               </span>
               <span class="white-text email">
               	<%= current_user.username %>
