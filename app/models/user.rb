@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   # Relationships
   has_one :student
+  has_many :favorites
+  has_many :favorite_organizations, through: :favorites, source: :favorited, source_type: 'Organization'
 
   # Validations
   validates :username, presence: true, uniqueness: { case_sensitive: false}
