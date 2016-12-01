@@ -23,19 +23,26 @@ class HomeController < ApplicationController
 
   def student_dashboard
     @commitments = current_user.favorite_organizations
+    @positions = get_positions
   end
+
 
   private
 
   def get_positions
-    commitments = current_user.student.commitments
+    fav_orgs = current_user.favorite_organizations
     positions = Array.new
+    times_array = Array.new
 
-    commitments.each do |c|
-      positions << Position.get_position_from_org_id(c.organization_id).map{|p| [p.name, p.hour_commitment, p.description]}
+    fav_orgs.each do |o|
+      positions << Position.get_position_from_org_id(o.id).map{|p| p.hour_commitment}
     end
 
-    return positions
+    positions.each do |times|
+      times_array.push(times[0])
+    end
+
+    return times_array
   end
 
   def find_organization_recommendations
