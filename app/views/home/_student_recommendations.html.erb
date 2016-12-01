@@ -2,8 +2,8 @@
 <h4>Recommended Organizations</h4>
 
 <div id="main2">
-	<% if @recommended_orgs[0].empty? %>
-	  <h5><center><i>There are currently no recommended organizations. Please modify your interests and try again!</i></center></h5>
+	<% if @recommended_orgs.empty? %>
+	  <h5><center><i>There are currently no recommended organizations. Please modify your interests and try again! <%= link_to "Edit Interests", new_interest_path %> </i></center></h5>
 	<% else %>
 		<div class="row">
 		  <% @recommended_orgs.each do |org| %>

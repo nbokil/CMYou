@@ -62,7 +62,11 @@ class HomeController < ApplicationController
     matching_tags = Array.new
 
     interests.each do |i|
-      matching_tags << Tag.for_interest(i.name).map(&:id)  
+      tag = Tag.for_interest(i.name)
+
+      unless (tag.empty?)
+        matching_tags << Tag.for_interest(i.name).map(&:id)  
+      end
     end
 
     return matching_tags
