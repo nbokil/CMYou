@@ -32,9 +32,24 @@
           </div>
         </div>
       </div></li>
-      <li><%= link_to 'Student Dashboard', student_dashboard_path , style:'color:black;' %></li>
-      <li><div class="divider"></div></li>
-      <li><%= link_to 'Recommended Orgs.', home_path , style:'color:black;' %></li>
-      <!--<li><a class="waves-effect" href="#!"><i class="small material-icons">stars</i>Recommended Orgs.</a></li> -->
+      <% if current_user.role?(:student) %>
+        <li><%= link_to 'Student Dashboard', student_dashboard_path , style:'color:black;' %></li>
+        <li><div class="divider"></div></li>
+        <li><%= link_to 'Recommended Orgs.', home_path , style:'color:black;' %></li>
+      
+      <% elsif current_user.role?(:admin) %>
+        <li><%= link_to 'Admin Dashboard', home_path , style:'color:black;' %></li>
+        <li><div class="divider"></div></li>
+        <li><%= link_to 'All Organizations', organizations_path , style:'color:black;' %></li>
+        <li><div class="divider"></div></li>
+        <li><%= link_to 'All Users', users_path , style:'color:black;' %></li>
+        <li><div class="divider"></div></li>
+        <li><%= link_to 'All Tags', tags_path , style:'color:black;' %></li>
+
+      <% elsif current_user.role?(:ra) %>
+        <li><%= link_to 'RA Dashboard', home_path , style:'color:black;' %></li>
+        <li><div class="divider"></div></li>
+      <% end %>
+     
 
     </ul>

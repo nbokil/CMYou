@@ -3,7 +3,7 @@ class FavoriteOrganizationsController < ApplicationController
   
   def create
     if Favorite.create(favorited: @organization, user: current_user)
-      redirect_to @organization, notice: 'Organization has been favorited'
+      redirect_to :back
     else
       redirect_to @organization, alert: 'Something went wrong...*sad panda*'
     end
@@ -11,7 +11,7 @@ class FavoriteOrganizationsController < ApplicationController
   
   def destroy
     Favorite.where(favorited_id: @organization.id, user_id: current_user.id).first.destroy
-    redirect_to @organization, notice: 'Organization is no longer in favorites'
+    redirect_to :back, notice: 'Organization is no longer in favorites'
   end
   
   private

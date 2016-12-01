@@ -1,14 +1,14 @@
+<div id="main2">
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Organizations</h1>
+<h4>Active Organizations</h4>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Video</th>
-      <th>Active</th>
+      <th>Positions</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,8 +18,10 @@
       <tr>
         <td><%= organization.name %></td>
         <td><%= organization.description %></td>
-        <td><%= organization.video %></td>
-        <td><%= organization.active %></td>
+        <td><% organization.positions.each do |p| %>
+              <%= "#{p.name}, #{p.hour_commitment}" %><br>
+            <% end %>
+        </td>
         <td><%= link_to 'Show', organization %></td>
         <td><%= link_to 'Edit', edit_organization_path(organization) %></td>
         <td><%= link_to 'Destroy', organization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -31,3 +33,4 @@
 <br>
 
 <%= link_to 'New Organization', new_organization_path %>
+</div>

@@ -12,15 +12,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def about
-  end
-
-  def privacy
-  end
-
-  def contact
-  end
-
   def student_dashboard
     @commitments = current_user.favorite_organizations
     
@@ -36,26 +27,14 @@ class HomeController < ApplicationController
     return matching_orgs
   end
 
-  def find_commitments
-    commitments = current_user.student.commitments
-    matching_orgs = Array.new
-
-    commitments.each do |c|
-      matching_orgs << Organization.for_org(c.organization_id).map{|o| [o.id, o.name, o.description]}
-    end
-
-    return matching_orgs
-  end
-
   def match_interests_to_tags
     interests = current_user.student.interests
-    matching_tags = Array.new
+    matching_tags = Hash.new
 
     interests.each do |i|
       tag = Tag.for_interest(i.name)
-
-      unless (tag.empty?)
-        matching_tags << Tag.for_interest(i.name).map(&:id)  
+      unless (tag.empty? or matching_tags.has_value?(tag[0].id))
+        matching_tags[tag[0].id] = tag[0].id 
       end
     end
 
