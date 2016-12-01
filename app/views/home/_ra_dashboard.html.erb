@@ -1,2 +1,7 @@
 <!-- code for ra dashboard goes here -->
-<p>ra dashboard</p>
+<ul class="collection with-header">
+	<li class="collection-header"><h4>View Student Analytics By Dorm</h4></li>
+	<% Student::DORM_LIST.each do |dorm| %>
+	<%= link_to dorm[0], dorm_path(dorm[0]), :class => 'collection-item'%>
+	<%end%>
+</ul>
