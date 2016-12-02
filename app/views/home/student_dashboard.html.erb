@@ -1,21 +1,19 @@
 <!-- code for student recommendations goes here -->
 <div id="main2">
-<h4>Student Dashboard</h4>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
-
-
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
-
+<h4><%="#{current_user.student.first_name}"%>'s Dashboard</h4><br><br>
 <div class ="row">
-	<div style="width: 600px; height: 400px; margin: 0 auto">
-	    <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
-	    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
-	</div>
-	<!-- The statistical graph should go in here-->
-	<div id="positions" style="display:none"><%= @positions %></div>
+		<center>
+		<div style="width: 600px; height: 200px; margin: 0 auto; margin-left:38%;">
+		    <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
+		    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+		</div>
+		</center>
+		<!-- The statistical graph should go in here-->
+		<div id="positions" style="display:none"><%= @positions %></div>
 </div>
-
 
 <div class ="row">
 	
@@ -23,9 +21,9 @@
 		<div class="col s4">
       <div class="card small">
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><%= org.name %><i class="mdi-navigation-more-vert right"></i></span>
+          <span class="card-title activator grey-text text-darken-4"><b><%= org.name %></b><i class="mdi-navigation-more-vert right"></i></span>
           <br>
-          <p align="justify"><%= org.description %></p>
+          <p style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;"><%= org.description %></p>
         </div>
 
         <div class="card-action">
