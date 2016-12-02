@@ -14,6 +14,7 @@
 	<div class="col s6">
 		<div id="container1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 	</div>
+	<div id="interests" style="display:none"><%= @student_interests%></div>
 	<div class="col s6">
 		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	</div>
@@ -36,6 +37,27 @@ $(function () {
             ]
         };
     });
+
+    var hash_string = $('#interests').html();
+    var st;
+    var interestList = hash_string.split(",");
+    console.log(interestList);
+    var hash_dict = [];
+    for (st in interestList) {
+    	console.log(interestList[st]);
+    	dict = {};
+    	var interest_pattern = /"(.*?)"/;
+    	var interest_value = interestList[st].match(interest_pattern);
+    	console.log("after matching",interest_value[1]);
+    	dict['name'] = interest_value[1];
+
+    	var value_pattern = /\d+/;
+    	var real_count = interestList[st].match(value_pattern);
+    	console.log("after matching",real_count[0]);
+    	dict['y'] = parseInt(real_count[0]);
+    	console.log(dict);
+    	hash_dict.push(dict);
+    }
 
     // Build the chart
     Highcharts.chart('container1', {
@@ -66,20 +88,35 @@ $(function () {
             }
         },
         series: [{
-            name: 'Brands',
-            data: [
-                { name: 'Dance', y: 5 },
-                { name: 'Tennis', y: 3 },
-                { name: 'South Asian', y: 5 },
-                { name: 'Food', y: 12, sliced: true, selected: true}, 
-                { name: 'Opera', y: 2 },
-                { name: 'Debate', y: 2 }
-            ]
+            name: 'Interests',
+            data: hash_dict
         }]
     });
 });
 
 $(function () {
+
+	var hash_string = $('#interests').html();
+    var st;
+    var interestList = hash_string.split(",");
+    console.log(interestList);
+    var hash_dict = [];
+    for (st in interestList) {
+    	console.log(interestList[st]);
+    	dict = {};
+    	var interest_pattern = /"(.*?)"/;
+    	var interest_value = interestList[st].match(interest_pattern);
+    	console.log("after matching",interest_value[1]);
+    	dict['name'] = interest_value[1];
+
+    	var value_pattern = /\d+/;
+    	var real_count = interestList[st].match(value_pattern);
+    	console.log("after matching",real_count[0]);
+    	dict['y'] = parseInt(real_count[0]);
+    	console.log(dict);
+    	hash_dict.push(dict);
+    }
+
     // Create the chart
     Highcharts.chart('container', {
         chart: {
@@ -118,14 +155,7 @@ $(function () {
         series: [{
             name: 'Brands',
             colorByPoint: true,
-            data: [
-                { name: 'Dance', y: 5 },
-                { name: 'Tennis', y: 3 },
-                { name: 'South Asian', y: 5 },
-                { name: 'Food', y: 12}, 
-                { name: 'Opera', y: 2 },
-                { name: 'Debate', y: 2 }
-            ]
+            data: hash_dict
         }]
     });
 });
