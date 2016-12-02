@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new', as: :login
   get 'student/dashboard' => 'home#student_dashboard', as: :student_dashboard
   get 'dorm/:name' => 'home#dorm', as: :dorm
+  get 'home/:more' => 'home#home', as: :more
 
 end

@@ -1,8 +1,17 @@
 class HomeController < ApplicationController
 
   def home
+    more = params[:more]
     if (current_user && current_user.role?(:student))
-      @recommended_orgs = find_organization_recommendations
+      recommended_orgs = find_organization_recommendations
+      @recommended_orgs = find_organization_recommendations.each_slice(6).to_a[0]
+
+      @recommended_orgs_2 = []
+
+      #if ((recommended_orgs.length > 6) && (more == true))
+      #  @recommended_orgs_2 = recommended_orgs.each_slice(6).to_a[1]
+      #end
+      
       @student = current_user.student.id
 
     elsif (current_user)
@@ -85,7 +94,7 @@ class HomeController < ApplicationController
     matching_orgs = Array.new
 
     tag_ids.each do |t|
-      matching_orgs << OrgTag.for_org(t).map(&:organization_id)
+      matching_orgs += OrgTag.for_org(t).map(&:organization_id)
     end
 
     return matching_orgs
@@ -95,7 +104,7 @@ class HomeController < ApplicationController
     matching_orgs = Array.new
 
     org_ids.each do |oi|
-      matching_orgs << Organization.for_org(oi).map {|o| [o.id, o.name, o.description]}
+      matching_orgs += Organization.for_org(oi).map {|o| [o.id, o.name, o.description]}
     end
 
     return matching_orgs

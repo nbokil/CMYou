@@ -6,7 +6,32 @@
 	  <h5><center><i>There are currently no recommended organizations. Please modify your interests and try again! <%= link_to "Edit Interests", new_interest_path %> </i></center></h5>
 	<% else %>
 		<div class="row">
-		  <% @recommended_orgs[0].each do |org| %>
+		  <% @recommended_orgs.each do |org| %>
+		    <div class="col s4">
+		      <div class="card small">
+		        <div class="card-content">
+		          <span class="card-title activator grey-text text-darken-4"><%=org[1] %><i class="mdi-navigation-more-vert right"></i></span>
+		          <br>
+		          <p align="justify"><%= org[2] %></p>
+		        </div>
+
+		        <div class="card-action">
+							<%= link_to "View Organization", organization_path(org[0]) %>
+							
+							<% unless current_user.favorite_organizations.exists?(id: org[0]) %>
+								
+								<%= link_to image_tag('unfavorite.png', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organizations_path(organization_id: org[0]), method: :post %>
+							<% else %>
+								<%= link_to image_tag('favorite.jpg', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organization_path(org[0]), method: :delete %>
+							<% end %>
+						</div>
+		      </div>
+		    </div>
+		  <% end %>
+		</div>
+
+		<div class="row">
+		  <% @recommended_orgs_2.each do |org| %>
 		    <div class="col s4">
 		      <div class="card small">
 		        <div class="card-content">
@@ -30,5 +55,8 @@
 		  <% end %>
 		</div>
 	  
+	  <%= link_to "View More", more_path(:true), :class => "waves-effect waves-light btn-large" %>
+
+
 	<% end %>
 </div>
