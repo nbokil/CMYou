@@ -7,10 +7,11 @@ class HomeController < ApplicationController
       @recommended_orgs = find_organization_recommendations.each_slice(6).to_a[0]
 
       @recommended_orgs_2 = []
-
-      #if ((recommended_orgs.length > 6) && (more == true))
-      #  @recommended_orgs_2 = recommended_orgs.each_slice(6).to_a[1]
-      #end
+      @more = 0
+      if (more == "true")
+        @more += 1
+        @recommended_orgs_2 = recommended_orgs.each_slice(6).to_a[1]
+      end
       
       @student = current_user.student.id
 
