@@ -1,42 +1,62 @@
 <!-- code for student recommendations goes here -->
 <div id="main2">
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
-<h4><%="#{current_user.student.first_name}"%>'s Dashboard</h4><br><br>
+<% unless @commitments.empty? %>
+	<h4><%="#{current_user.student.first_name}"%>'s Dashboard</h4><br><br>
+<% end %>
 <div class ="row">
-		<center>
-		<div style="width: 600px; height: 200px; margin: 0 auto; margin-left:38%;">
-		    <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
-		    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+	<div class="col s6">
+		<div style="min-width: 310px; height: 400px; margin: 0 auto;">
+		    <div id="container-speed" style="width: 500px; height: 200px; float: left"></div>
+		    <div id="container-rpm" style="width: 500px; height: 200px; float: left"></div>
 		</div>
-		</center>
-		<!-- The statistical graph should go in here-->
-		<div id="positions" style="display:none"><%= @positions %></div>
+	</div>
+	<div class="col s6">
+		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	</div>
+	<!-- The statistical graph should go in here-->
+	<div id="positions" style="display:none"><%= @positions %></div>
+	<div id="stackchart" style="display:none"><%= @stackchart %></div>
 </div>
 
 <div class ="row">
 	
+	<% if @commitments.empty? %>
+		<div id="modal1" class="modal">
+		    <div class="modal-content">
+		      <h4>Uh-Oh!</h4>
+		      <p>You have not favorited any organizations!</p>
+		      <p>Please go to the recommendations page to view orgs!</p>
+		    </div>
+		    <div class="modal-footer">
+		      <%= link_to "View Recommended Orgs", home_path, class: "modal-action modal-close waves-effect waves-green btn-flat" %>
+		    </div>
+  		</div>
+	<% else %>
 	<% @commitments.each do |org| %>
-		<div class="col s4">
-      <div class="card small">
-        <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><b><%= org.name %></b><i class="mdi-navigation-more-vert right"></i></span>
-          <br>
-          <p style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;"><%= org.description %></p>
-        </div>
+			<div class="col s4">
+	      <div class="card small">
+	        <div class="card-content">
+	          <span class="card-title activator grey-text text-darken-4" id="org_name"><b><%= org.name %></b><i class="mdi-navigation-more-vert right"></i></span>
+	          <br>
+	          <p style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;"><%= org.description %></p>
+	        </div>
 
-        <div class="card-action">
-					<%= link_to "View Organization", organization_path(org) %>
-					<% unless current_user.favorite_organizations.exists?(id: org.id) %>
-						
-						<%= link_to image_tag('unfavorite.png', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organizations_path(organization_id: org.id), method: :post %>
-					<% else %>
-						<%= link_to image_tag('favorite.jpg', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organization_path(org), method: :delete %>
-					<% end %>
-				</div>
-      </div>
-    </div>
+	        <div class="card-action">
+						<%= link_to "View Organization", organization_path(org) %>
+						<% unless current_user.favorite_organizations.exists?(id: org.id) %>
+							
+							<%= link_to image_tag('unfavorite.png', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organizations_path(organization_id: org.id), method: :post %>
+						<% else %>
+							<%= link_to image_tag('favorite.jpg', size: "35x30", :style => ("padding-left:5px;"), class: "right"), favorite_organization_path(org), method: :delete %>
+						<% end %>
+					</div>
+	      </div>
+	    </div>
+		<% end %>
 	<% end %>
 
 </div>
@@ -45,109 +65,202 @@
 </div>
 
 	<script>
+
+	$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal({
+    	dismissible: false
+    });
+  });
+
 	lengthTotal = $('#positions').text().length
-	hoursList= $('#positions').text().substring(1,lengthTotal-1).split(",")
 
-	var hoursListInt = []
-
-	hoursList.forEach(function(strHour){
-		hoursListInt.push(parseInt(strHour))
-	})
-
-	function sumList(theList){
-		var total = 0
-		theList.forEach(function(element){
-			total += element
-		})
-		return total
+	if(lengthTotal <= 2) {
+		$('#modal1').modal('open')
 	}
 
-	totalHours = sumList(hoursListInt)
+	if(lengthTotal > 2) {
+		hoursList= $('#positions').text().substring(1,lengthTotal-1).split(",")
 
-		$(function () {
+		var hoursListInt = []
 
-	    var gaugeOptions = {
+		hoursList.forEach(function(strHour){
+			hoursListInt.push(parseInt(strHour))
+		})
 
+		function sumList(theList){
+			var total = 0
+			theList.forEach(function(element){
+				total += element
+			})
+			return total
+		}
+
+		totalHours = sumList(hoursListInt)
+
+			$(function () {
+
+		    var gaugeOptions = {
+
+		        chart: {
+		            type: 'solidgauge'
+		        },
+
+		        title: null,
+
+		        pane: {
+		            center: ['50%', '85%'],
+		            size: '150%',
+		            startAngle: -90,
+		            endAngle: 90,
+		            background: {
+		                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+		                innerRadius: '60%',
+		                outerRadius: '100%',
+		                shape: 'arc'
+		            }
+		        },
+
+		        tooltip: {
+		            enabled: false
+		        },
+
+		        // the value axis
+		        yAxis: {
+		            stops: [
+		                [0.1, '#55BF3B'], // green
+		                [0.5, '#DDDF0D'], // yellow
+		                [0.9, '#DF5353'] // red
+		            ],
+		            lineWidth: 0,
+		            minorTickInterval: null,
+		            tickAmount: 2,
+		            title: {
+		                y: -70
+		            },
+		            labels: {
+		                y: 16
+		            }
+		        },
+
+		        plotOptions: {
+		            solidgauge: {
+		                dataLabels: {
+		                    y: 5,
+		                    borderWidth: 0,
+		                    useHTML: true
+		                }
+		            }
+		        }
+		    };
+
+		    // The speed gauge
+		    var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+		        yAxis: {
+		            min: 0,
+		            max: 30,
+		            title: {
+		                text: 'Total Weekly Commitments (hours)'
+		            }
+		        },
+
+		        credits: {
+		            enabled: false
+		        },
+
+		        series: [{
+		            name: 'Total Hours Spent',
+		            data: [totalHours],
+		            dataLabels: {
+		                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+		                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+		                       '<span style="font-size:12px;color:silver">hours</span></div>'
+		            },
+		            tooltip: {
+		                valueSuffix: ' hours'
+		            }
+		        }]
+
+		    }));
+
+		});
+	};
+
+	$(function () {
+
+	lengthTotal = $('#stackchart').text().length
+	if(lengthTotal > 2) {
+
+		var hash_string = $('#stackchart').html();
+	    var st;
+	    var interestList = hash_string.split(",");
+	    console.log(interestList);
+	    var hash_dict = [];
+	    for (st in interestList) {
+	    	console.log(interestList[st]);
+	    	dict = {};
+	    	var interest_pattern = /"(.*?)"/;
+	    	var interest_value = interestList[st].match(interest_pattern);
+	    	console.log("after matching name",interest_value[1]);
+	    	dict['name'] = interest_value[1];
+
+	    	var value_pattern = /\d+/;
+	    	var real_count = interestList[st].match(value_pattern);
+	    	console.log("after matching hour",real_count[0]);
+	    	dict['data'] = [parseInt(real_count[0])];
+	    	console.log('dict',dict);
+	    	hash_dict.push(dict);
+	    }
+			
+	    Highcharts.chart('container', {
 	        chart: {
-	            type: 'solidgauge'
+	            type: 'column'
 	        },
-
-	        title: null,
-
-	        pane: {
-	            center: ['50%', '85%'],
-	            size: '140%',
-	            startAngle: -90,
-	            endAngle: 90,
-	            background: {
-	                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
-	                innerRadius: '60%',
-	                outerRadius: '100%',
-	                shape: 'arc'
-	            }
+	        title: {
+	            text: ''
 	        },
-
-	        tooltip: {
-	            enabled: false
+	        xAxis: {
+	            categories: ['Hour Breakdown']
 	        },
-
-	        // the value axis
-	        yAxis: {
-	            stops: [
-	                [0.1, '#55BF3B'], // green
-	                [0.5, '#DDDF0D'], // yellow
-	                [0.9, '#DF5353'] // red
-	            ],
-	            lineWidth: 0,
-	            minorTickInterval: null,
-	            tickAmount: 2,
-	            title: {
-	                y: -70
-	            },
-	            labels: {
-	                y: 16
-	            }
-	        },
-
-	        plotOptions: {
-	            solidgauge: {
-	                dataLabels: {
-	                    y: 5,
-	                    borderWidth: 0,
-	                    useHTML: true
-	                }
-	            }
-	        }
-	    };
-
-	    // The speed gauge
-	    var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
 	        yAxis: {
 	            min: 0,
-	            max: 30,
 	            title: {
-	                text: 'Total Weekly Commitments (hours)'
-	            }
-	        },
-
-	        credits: {
-	            enabled: false
-	        },
-
-	        series: [{
-	            name: 'Total Hours Spent',
-	            data: [totalHours],
-	            dataLabels: {
-	                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-	                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-	                       '<span style="font-size:12px;color:silver">hours</span></div>'
+	                text: 'Total Hours'
 	            },
-	            tooltip: {
-	                valueSuffix: ' hours'
+	            stackLabels: {
+	                enabled: true,
+	                style: {
+	                    fontWeight: 'bold',
+	                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+	                }
 	            }
-	        }]
-
-	    }));
-
+	        },
+	        legend: {
+	            align: 'right',
+	            x: -30,
+	            verticalAlign: 'top',
+	            y: 25,
+	            floating: false,
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	            borderColor: '#CCC',
+	            borderWidth: 1,
+	            shadow: true
+	        },
+	        tooltip: {
+	            headerFormat: '<b>{point.x}</b><br/>',
+	            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+	        },
+	        plotOptions: {
+	            column: {
+	                stacking: 'normal',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+	                }
+	            }
+	        },
+	        series: hash_dict
+	    });
+	}
 	});
 	</script>

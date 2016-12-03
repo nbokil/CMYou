@@ -2,7 +2,7 @@
 <div id="main2">
 <h4>Recommended Organizations</h4>
 
-	<% if @recommended_orgs.empty? %>
+	<% if @recommended_orgs.nil? %>
 	  <h5><center><i>There are currently no recommended organizations. Please modify your interests and try again! <%= link_to "Edit Interests", new_interest_path %> </i></center></h5>
 	<% else %>
 		<div class="row">
