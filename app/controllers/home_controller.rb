@@ -30,10 +30,25 @@ class HomeController < ApplicationController
   def student_dashboard
     @commitments = current_user.favorite_organizations
     @positions = get_positions
+    @stackchart = get_data_for_stackchart
   end
 
 
   private
+
+  def get_data_for_stackchart
+    list = Array.new
+
+    @commitments.each do |org|
+      hash = Hash.new
+      hash[org.name] = org.positions.first.hour_commitment
+
+      list.push(hash)
+    end
+
+    return list
+
+  end
 
   def student_interests
     students_ids = Student.for_dorm(params[:name]).map(&:id)

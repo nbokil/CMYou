@@ -1,18 +1,23 @@
 <!-- code for student recommendations goes here -->
 <div id="main2">
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 <h4><%="#{current_user.student.first_name}"%>'s Dashboard</h4><br><br>
 <div class ="row">
-		<center>
-		<div style="width: 600px; height: 200px; margin: 0 auto; margin-left:38%;">
-		    <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
-		    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+	<div class="col s6">
+		<div style="min-width: 310px; height: 400px; margin: 0 auto;">
+		    <div id="container-speed" style="width: 500px; height: 200px; float: left"></div>
+		    <div id="container-rpm" style="width: 500px; height: 200px; float: left"></div>
 		</div>
-		</center>
-		<!-- The statistical graph should go in here-->
-		<div id="positions" style="display:none"><%= @positions %></div>
+	</div>
+	<div class="col s6">
+		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	</div>
+	<!-- The statistical graph should go in here-->
+	<div id="positions" style="display:none"><%= @positions %></div>
+	<div id="stackchart" style="display:none"><%= @stackchart %></div>
 </div>
 
 <div class ="row">
@@ -21,7 +26,7 @@
 		<div class="col s4">
       <div class="card small">
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><b><%= org.name %></b><i class="mdi-navigation-more-vert right"></i></span>
+          <span class="card-title activator grey-text text-darken-4" id="org_name"><b><%= org.name %></b><i class="mdi-navigation-more-vert right"></i></span>
           <br>
           <p style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;"><%= org.description %></p>
         </div>
@@ -76,7 +81,7 @@
 
 	        pane: {
 	            center: ['50%', '85%'],
-	            size: '140%',
+	            size: '150%',
 	            startAngle: -90,
 	            endAngle: 90,
 	            background: {
@@ -150,4 +155,78 @@
 	    }));
 
 	});
+
+	$(function () {
+
+	var hash_string = $('#stackchart').html();
+    var st;
+    var interestList = hash_string.split(",");
+    console.log(interestList);
+    var hash_dict = [];
+    for (st in interestList) {
+    	console.log(interestList[st]);
+    	dict = {};
+    	var interest_pattern = /"(.*?)"/;
+    	var interest_value = interestList[st].match(interest_pattern);
+    	console.log("after matching name",interest_value[1]);
+    	dict['name'] = interest_value[1];
+
+    	var value_pattern = /\d+/;
+    	var real_count = interestList[st].match(value_pattern);
+    	console.log("after matching hour",real_count[0]);
+    	dict['data'] = [parseInt(real_count[0])];
+    	console.log('dict',dict);
+    	hash_dict.push(dict);
+    }
+		
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: ['Hour Breakdown']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total Hours'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: false,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: true
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+            }
+        },
+        series: hash_dict
+    });
+});
 	</script>
