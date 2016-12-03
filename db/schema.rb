@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20161130034747) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "commitments", force: :cascade do |t|
     t.integer  "student_id"
     t.integer  "organization_id"
@@ -28,8 +31,8 @@ ActiveRecord::Schema.define(version: 20161130034747) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "favorites", ["favorited_type", "favorited_id"], name: "index_favorites_on_favorited_type_and_favorited_id"
-  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id"
+  add_index "favorites", ["favorited_type", "favorited_id"], name: "index_favorites_on_favorited_type_and_favorited_id", using: :btree
+  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
 
   create_table "interests", force: :cascade do |t|
     t.string   "name"
