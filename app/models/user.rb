@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :username, presence: true, uniqueness: { case_sensitive: false}
-  validates_format_of :username, with: /\A[\w]([^@\s,;]+)@(([\w-]+\.)+(com|edu|org|net|gov|mil|biz|info))\z/i, message: "must be valid andrew email"
+  #validates_format_of :username, with: /\A[\w]([^@\s,;]+)@(([\w-]+\.)+(com|edu|org|net|gov|mil|biz|info))\z/i, message: "must be valid andrew email"
   validates :role, inclusion: { in: %w[admin student ra], message: "is not a recognized role in system" }
   validates_presence_of :password, on: :create 
   validates_presence_of :password_confirmation, on: :create 

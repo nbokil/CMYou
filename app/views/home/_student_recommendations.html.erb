@@ -30,6 +30,9 @@
 		  <% end %>
 		</div>
 
+	<% if ((@recommended_orgs_2.nil?) && (@more == 1)) %>
+	  <h5><center><i>There are currently no more recommended organizations. Please modify your interests and try again! <%= link_to "Edit Interests", new_interest_path %> </i></center></h5>
+	<% else %>
 		<div class="row">
 		  <% @recommended_orgs_2.each do |org| %>
 		    <div class="col s4">
@@ -54,8 +57,11 @@
 		    </div>
 		  <% end %>
 		</div>
+	<% end %>
 	  
-	  <%= link_to "View More", more_path(:true), :class => "waves-effect waves-light btn-large" %>
+	  <% if @more == 0 %>
+	  	<%= link_to "View More", more_path(:true), :class => "waves-effect waves-light btn-large" %>
+	  <% end %>
 
 
 	<% end %>
