@@ -20,6 +20,3 @@
 /public/bridge_api_call.txt
 /public/orgs.json
 /public/orgs_notpretty.json
-
-#Ignore seed file because it contains org data now
-/db/seeds.rb
