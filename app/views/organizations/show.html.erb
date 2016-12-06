@@ -1,74 +1,68 @@
+<div id="main2">
 
-<div class="row">
-    <div class="col s12">
-      <div class="card">
-        <div class="card-image">
-			<%= image_tag 'bhangra_org.png', size: "250x250" %>
-        </div>
-      </div>
-         <hr>
-    </div>
- 
-</div>
+	<h3><%= @organization.name %></h3>
 
-<center><iframe width="100%" height="355" src="https://www.youtube.com/embed/IfdiFUj7_QQ" frameborder="0" allowfullscreen></iframe></center>
-
-<div class="boxed" style="border:2px solid black">
-  <p><%= @organization.description %></p>
-</div>
-
-<div class="row">
-	<div class="col s12 m6">
-	  <div class="card blue-grey darken-1">
-	    <div class="card-content white-text">
-	      <span class="card-title">Competitive Dancer</span>
-	      <p>You will join the competitve team and get the chance to compete against other teams around the nation</p>
-	    </div>
-	    <div class="card-action">
-	      <a href="#">Time Commitment: 100hrs / week </a>
-	    </div>
-	  </div>
+	<div class="row">
+		<div class="col s3">
+			<%= image_tag @organization.image %>
+		</div>
+		<div class="col s9">
+			<%= raw @organization.description %>
+			<p><b>Want to learn more? Visit us on the Bridge <%= link_to "here", "http://#{@organization.bridge}" %></b></p>
+		</div>
 	</div>
 
-	<div class="col s12 m6">
-	  <div class="card blue-grey darken-1">
-	    <div class="card-content white-text">
-	      <span class="card-title">Campus Dancer</span>
-	      <p>You will learn the basics of bhangra and campus will train you to join the competitive dancers in the future</p>
-	    </div>
-	    <div class="card-action">
-	      <a href="#">Time Commitment: 50hrs / week </a>
-	    </div>
-	  </div>
+	<% unless @positions.empty? %>
+	<h5>Positions</h5>
+	<div class="row">
+		<% @positions.each do |p| %>
+			<div class="col s6">
+			  <div class="card grey darken-1">
+			    <div class="card-content white-text">
+			      <span class="card-title"><b><%= p.name %></b></span>
+			      <p><%= p.description %></p>
+			    </div>
+			    <div class="card-action">
+			      <p class="white-text">TIME COMMITMENT: <%= "#{p.hour_commitment.to_int} HRS / WEEK" %></p>
+			    </div>
+			  </div>
+			</div>
+		<% end %>
 	</div>
+	<% end %>
+
+	<hr>
+	<h5>Contact Information and Useful Links</h5>
+
+	<table>
+	  <tbody>
+      <tr>
+      	<td><b>Email</b></td>
+        <td><%= mail_to("#{@organization.email}", "#{@organization.email}", encode:"javascript") %></td>
+      </tr>
+      <tr>
+      	<td><b>Primary Contact</b></td>
+      	<td><%= mail_to("#{@organization.contactemail}", "#{@organization.contactname}", encode: "javascript") %>
+      </td>
+      <% if @organization.website != "" %>
+	      <tr>
+	      	<td><b>Website</b></td>
+	      	<td><%= link_to "#{@organization.website}", "#{@organization.website}" %>
+	      </td>
+	     <% end %>
+	     <% if @organization.facebook != "" %>
+	      <tr>
+	      	<td><b>Facebook</b></td>
+	      	<td><%= link_to "#{@organization.facebook}", "#{@organization.facebook}" %>
+	      </td>
+	     <% end %>
+	     <% if @organization.youtube != "" %>
+	      <tr>
+	      	<td><b>YouTube Channel</b></td>
+	      	<td><%= link_to "#{@organization.youtube}", "#{@organization.youtube}" %>
+	      </td>
+	     <% end %>
+	  </tbody>
+	</table>	
+
 </div>
-
-
-
-
-<!--
-
-<p>
-  <strong>Name:</strong>
-  <%= @organization.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @organization.description %>
-</p>
-
-<p>
-  <strong>Video:</strong>
-  <%= @organization.video %>
-</p>
-
-<p>
-  <strong>Active:</strong>
-  <%= @organization.active %>
-</p>
-
-<%= link_to 'Edit', edit_organization_path(@organization) %> |
-<%= link_to 'Back', organizations_path %>
-
--->

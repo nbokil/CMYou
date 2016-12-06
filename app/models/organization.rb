@@ -13,6 +13,5 @@ class Organization < ActiveRecord::Base
   #Validations
   validates_presence_of :name
 
-  #need to figure out how to handle Youtube video display
 
 end

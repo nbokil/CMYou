@@ -4,12 +4,13 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.all
+    @organizations = Organization.alphabetical
   end
 
   # GET /organizations/1
   # GET /organizations/1.json
   def show
+    @positions = @organization.positions
   end
 
   # GET /organizations/new
@@ -69,6 +70,6 @@ class OrganizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
-      params.require(:organization).permit(:name, :description, :video, :active)
+      params.require(:organization).permit(:name, :description, :active, :email, :website, :facebook, :youtube, :image, :bridge, :contactname, :contactemail)
     end
 end
